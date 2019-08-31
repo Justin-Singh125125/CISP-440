@@ -71,6 +71,13 @@ int initTable(string symbols[], bool table[MAX_ROWS][MAX_COLS])
 ///I would recommend using cout << setw(symbols[j].size() + 2) to set the width of each column
 void printTable(string symbols[], bool table[MAX_ROWS][MAX_COLS], int numProps)
 {
+	//print out the symbols
+	for (int i = 0; i < numProps; i++) {
+		cout << setw(symbols[i].size() + 2) << symbols[i];
+	}
+
+	cout << endl << endl;
+
 	for (int i = 0; i < MAX_ROWS; i++) {
 		for (int j = 0; j < numProps; j++) {
 			if (table[i][j] == true) {
@@ -93,10 +100,6 @@ int appendColumn(string statement, string symbols[], bool table[MAX_ROWS][MAX_CO
 	//increment the number of props so we can use it as an index
 	//put statement inside symbols next available spots, depend on numProps to do this
 	symbols[numProps] = statement;
-
-
-
-
 
 	for (int i = 0; i < MAX_ROWS; i++) {
 		//initiate 3 variables to keep track of the truth values on current row
@@ -121,11 +124,9 @@ int appendColumn(string statement, string symbols[], bool table[MAX_ROWS][MAX_CO
 		table[i][numProps] = evaluate(p, q, r, statement);
 
 	}
-	cout << "num props test" << numProps << endl;
 
 	//increment the number of props so we can update
 	numProps++;
-
 
 	return numProps;
 }
@@ -137,8 +138,29 @@ int appendColumn(string statement, string symbols[], bool table[MAX_ROWS][MAX_CO
 ///If your code makes it through the loop without returning false, then return true
 bool isValid(bool table[MAX_ROWS][MAX_COLS], int numProps)
 {
-	cout << table[0][0] << endl;
-	return false;
+
+	for (int i = 0; i < MAX_ROWS; i++) {
+		bool hypotheis = true;
+		bool conclusion = true;
+
+		for (int j = 3; j < numProps; j++) {
+
+			if (j < (numProps - 1)) {
+
+				if (!table[i][j]) {
+					hypotheis = false;
+				}
+			}
+			else {
+				conclusion = table[i][j];
+			}
+
+		}
+		if (hypotheis == true && conclusion == false) {
+			return false;
+		}
+	}
+	return true;
 }
 
 ///This one is done, no need to change it.
@@ -176,7 +198,6 @@ int main()
 	//while we did not type therefore
 	while (statement != "therefore")
 	{
-		cout << "this is the statement: " << statement << endl;
 		//append another column 
 		numProps = appendColumn(statement, symbols, table, numProps);
 
