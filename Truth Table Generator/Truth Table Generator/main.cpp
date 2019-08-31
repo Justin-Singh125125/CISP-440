@@ -22,41 +22,48 @@ int initTable(string symbols[], bool table[MAX_ROWS][MAX_COLS])
 	//generates truth and false values for each symbol
 
 	//controls the rows
-	for (int i = 0; i < 3; i++) {
-		//controls the columns 
-		for (int j = 0; j < MAX_ROWS; j++) {
+	for (int i = 0; i < 3; i++)
+	{
+		//controls the columns
+		for (int j = 0; j < MAX_ROWS; j++)
+		{
 
-			//first row condition 
-			if (i == 0) {
-				if (j < 4) {
+			//first row condition
+			if (i == 0)
+			{
+				if (j < 4)
+				{
 					table[j][i] = true;
 				}
-				else {
+				else
+				{
 					table[j][i] = false;
 				}
 			}
 
-			//first row condition 
-			if (i == 1) {
+			//first row condition
+			if (i == 1)
+			{
 
-
-				if ((j == 0 || j == 1) || (j == 4 || j == 5)) {
+				if ((j == 0 || j == 1) || (j == 4 || j == 5))
+				{
 					table[j][i] = true;
-
 				}
-				else {
+				else
+				{
 					table[j][i] = false;
 				}
-
-
 			}
 
-			if (i == 2) {
+			if (i == 2)
+			{
 
-				if (j % 2 == 0) {
+				if (j % 2 == 0)
+				{
 					table[j][i] = true;
 				}
-				else {
+				else
+				{
 					table[j][i] = false;
 				}
 			}
@@ -72,18 +79,24 @@ int initTable(string symbols[], bool table[MAX_ROWS][MAX_COLS])
 void printTable(string symbols[], bool table[MAX_ROWS][MAX_COLS], int numProps)
 {
 	//print out the symbols
-	for (int i = 0; i < numProps; i++) {
+	for (int i = 0; i < numProps; i++)
+	{
 		cout << setw(symbols[i].size() + 2) << symbols[i];
 	}
 
-	cout << endl << endl;
+	cout << endl
+		 << endl;
 
-	for (int i = 0; i < MAX_ROWS; i++) {
-		for (int j = 0; j < numProps; j++) {
-			if (table[i][j] == true) {
+	for (int i = 0; i < MAX_ROWS; i++)
+	{
+		for (int j = 0; j < numProps; j++)
+		{
+			if (table[i][j] == true)
+			{
 				cout << setw(symbols[j].size() + 2) << "T";
 			}
-			else {
+			else
+			{
 				cout << setw(symbols[j].size() + 2) << "F";
 			}
 		}
@@ -101,28 +114,30 @@ int appendColumn(string statement, string symbols[], bool table[MAX_ROWS][MAX_CO
 	//put statement inside symbols next available spots, depend on numProps to do this
 	symbols[numProps] = statement;
 
-	for (int i = 0; i < MAX_ROWS; i++) {
+	for (int i = 0; i < MAX_ROWS; i++)
+	{
 		//initiate 3 variables to keep track of the truth values on current row
 		bool p = false, q = false, r = false;
-		for (int j = 0; j < numProps; j++) {
+		for (int j = 0; j < numProps; j++)
+		{
 
 			//set our conditions
-			if (j == 0) {
+			if (j == 0)
+			{
 				p = table[i][j];
 			}
-			if (j == 1) {
+			if (j == 1)
+			{
 				q = table[i][j];
 			}
-			if (j == 2) {
+			if (j == 2)
+			{
 				r = table[i][j];
 			}
-
-
 		}
 
 		//check all of our values and return the answer
 		table[i][numProps] = evaluate(p, q, r, statement);
-
 	}
 
 	//increment the number of props so we can update
@@ -139,27 +154,38 @@ int appendColumn(string statement, string symbols[], bool table[MAX_ROWS][MAX_CO
 bool isValid(bool table[MAX_ROWS][MAX_COLS], int numProps)
 {
 
-	for (int i = 0; i < MAX_ROWS; i++) {
-		bool hypotheis = true;
+	for (int i = 0; i < MAX_ROWS; i++)
+	{
+		bool hypothesis = true;
 		bool conclusion = true;
 
-		for (int j = 3; j < numProps; j++) {
+		for (int j = 3; j < numProps; j++)
+		{
 
-			if (j < (numProps - 1)) {
+			//stop before the concolusion
+			if (j < (numProps - 1))
+			{
 
-				if (!table[i][j]) {
-					hypotheis = false;
+				//if any of the values found in the row are false, trigger boolean to false
+				if (!table[i][j])
+				{
+					hypothesis = false;
 				}
 			}
-			else {
+			else
+			{
+				//the conclusion is dependent on the final value so no checks are made
 				conclusion = table[i][j];
 			}
-
 		}
-		if (hypotheis == true && conclusion == false) {
+		//after each iteratior, check our values
+		if (hypothesis == true && conclusion == false)
+		{
 			return false;
 		}
 	}
+
+	//if hyptohesis and co
 	return true;
 }
 
@@ -198,7 +224,7 @@ int main()
 	//while we did not type therefore
 	while (statement != "therefore")
 	{
-		//append another column 
+		//append another column
 		numProps = appendColumn(statement, symbols, table, numProps);
 
 		//print out the table
@@ -213,8 +239,10 @@ int main()
 	printTable(symbols, table, numProps);
 
 	bool valid = isValid(table, numProps);
-	if (valid) cout << "The argument IS valid" << endl;
-	else cout << "The argument is NOT valid" << endl;
+	if (valid)
+		cout << "The argument IS valid" << endl;
+	else
+		cout << "The argument is NOT valid" << endl;
 
 	return 0;
 }
