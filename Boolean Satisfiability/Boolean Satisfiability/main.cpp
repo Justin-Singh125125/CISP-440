@@ -1,6 +1,48 @@
 #include <iostream>
 using namespace std;
 
+
+const int MAX_ROW = 1024;
+const int MAX_COLUMN = 10;
+
+
+void displayColumn(bool row[MAX_COLUMN]) {
+	for (int i = 0; i < MAX_COLUMN; i++) {
+		cout << row[i] << " ";
+	}
+}
+
+void initTable(bool table[MAX_ROW][MAX_COLUMN]) {
+
+	//a sential variable to help us write truth values
+	int limit = MAX_ROW;
+
+
+
+	for (int i = 0; i < MAX_COLUMN; i++) {
+
+		//automate the limit
+		limit = limit / 2;
+
+		//a count variable to keep track of when to write truth values
+		int count = 0;
+		for (int j = 0; j < MAX_ROW; j++) {
+
+			if (count < limit) {
+				table[j][i] = true;
+			}
+			else
+			{
+				table[j][i] = false;
+			}
+
+			//increment count
+			count++;
+		}
+	}
+
+}
+
 bool isRowSat(bool row[10]) {
 
 	//status variable to keep track of logic, assume that it is false first
@@ -33,13 +75,12 @@ bool isRowSat(bool row[10]) {
 
 int main() {
 
+	//2d array 
+	bool table[MAX_ROW][MAX_COLUMN];
+
+	//initalize the table with truth values
+	initTable(table);
 
 
-	bool arrayTest[10] = {1, 0, 0, 1, 0, 1, 1, 0, 1, 0};
-
-
-	bool result = isRowSat(arrayTest);
-
-	cout << "result: " << result << endl;
 	return 0;
 }
